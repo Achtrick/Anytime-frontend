@@ -10,12 +10,11 @@
 .overlay h1 {
   width: 100%;
   text-align: center;
-  padding-top: 100px;
 }
 .formContainer {
   width: 80%;
   margin-left: 10%;
-  margin-top: 50px;
+  margin-top: 30px;
   box-shadow: 0 0 2px #ccc;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.671);
@@ -35,4 +34,127 @@
 .btn {
   width: 60%;
   margin-left: 20%;
+}
+.row {
+  display: inline-flex;
+  width: 80%;
+  margin-left: 10%;
+  margin-bottom: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.inputRow {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin-left: 10%;
+}
+.phone {
+  width: 85%;
+  margin-bottom: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.addBtn {
+  cursor: pointer;
+  width: 15%;
+  height: 37px;
+  text-align: center;
+  background-color: white;
+  margin-bottom: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: all 0.6s;
+}
+.addBtn:hover {
+  background-color: rgb(208, 232, 253);
+}
+.navrow {
+  padding-top: 80px;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+}
+
+.col2 {
+  width: 50%;
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+}
+
+.col50 {
+  color: black;
+  width: 50%;
+  background-color: white;
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.6s;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+.col50 img {
+  width: 128px;
+  height: auto;
+}
+.col50:hover {
+  transform: scale(1.05);
+  background-color: rgba(79, 49, 107, 0.671);
+  color: white;
+}
+.dangerBtn {
+  background-color: rgba(219, 22, 22, 0.932);
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.6s;
+}
+.dangerBtn:hover {
+  background-color: rgba(167, 17, 17, 0.932);
+}
+.defaultBtn {
+  background-color: rgba(255, 255, 255, 0.932);
+  color: rgb(0, 0, 0);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.6s;
+}
+.defaultBtn:hover {
+  background-color: rgba(218, 218, 218, 0.932);
+}
+.feedback {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 800px) {
+  .row {
+    display: block;
+  }
+  .col50 {
+    width: 100%;
+    margin: 0px;
+    margin-bottom: 10px;
+  }
+  .endRow {
+    justify-content: center;
+    width: 100%;
+  }
 }

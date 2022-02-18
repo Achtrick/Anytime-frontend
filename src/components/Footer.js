@@ -11,13 +11,12 @@ export default function Footer(props) {
             style={{ color: "white", fontSize: "12px" }}
             to="/terms-and-conditions"
           >
-            <a>Terms And Conditions</a>
+            <div>Terms And Conditions</div>
           </Link>
         </div>
         <div className="footer-middle">
           <p>{data.copyright}</p>
         </div>
-
         <div className="socials flex between">
           <a
             href="https://www.facebook.com/anywhere4"

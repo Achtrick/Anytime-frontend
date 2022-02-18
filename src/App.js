@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Redirect, Route, Switch, Link } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
@@ -23,8 +23,26 @@ import JoinUs from "./components/JoinUs";
 import ScrollToTop from "./components/ScrollToTop";
 import Terms from "./components/Terms";
 import Mailing from "./components/Mailing";
+import Login from "./components/Login";
+import { AppContext } from "./Context/AppContext";
+import axios from "axios";
+import { getUrl } from "./config";
+// import Signup from "./components/Signup";
+import Database from "./components/Database";
+import Dashboard from "./components/Dashboard";
+
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = getUrl();
 
 function App() {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    axios.get("/login").then((res) => {
+      setUser(res.data);
+    });
+  }, []);
+
   AOS.init({
     delay: 20,
     duration: 800,
@@ -70,78 +88,103 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <div className="App">
-        <Header
-          data={data}
-          onSelectLang={(lang) => selectLang(lang)}
-          selectedLang={selectedLang}
-          showListLangs={showListLangs}
-          onShowListLang={(e) => setShowListLangs(!showListLangs)}
-        />
-
-        <Switch>
-          <Route path="/" exact={true}>
-            <Home data={data} />
-          </Route>
-
-          <Route path="/about" exact={true}>
-            <About data={data} />
-          </Route>
-          <Route path="/portfolio" exact={true}>
-            <Portfolio data={data} />
-          </Route>
-          <Route path="/contact" exact={true}>
-            <Contact data={data} />
-          </Route>
-          <Route path="/services/strategy-marketing" exact={true}>
-            <MarketingStrategy data={data} />
-          </Route>
-          <Route path="/services/commercial-prospecting" exact={true}>
-            <CommercialProspecting data={data} />
-          </Route>
-          <Route path="/services/marketing-digital" exact={true}>
-            <DigitalMarketing data={data} />
-          </Route>
-          <Route path="/services/graphic-design" exact={true}>
-            <GraphicDesign data={data} />
-          </Route>
-          <Route path="/services/developement" exact={true}>
-            <Development data={data} />
-          </Route>
-          <Route path="/quote-quiz" exact={true}>
-            <Quiz data={data} />
-          </Route>
-          <Route path="/joinus" exact={true}>
-            <JoinUs data={data} />
-          </Route>
-          <Route path="/terms-and-conditions" exact={true}>
-            <Terms />
-          </Route>
-          <Route path="/*time&*where" exact={true}>
-            <Mailing />
-          </Route>
-          <Route path="/404" component={NotFound} />
-          <Redirect to="/404" />
-        </Switch>
-        <Footer data={data} />
-        <div className="join-btn">
-          <Link to="/joinus">
-            <img src="/images/join.png" alt="Join" />
-            <div className="join-title">Join Us</div>
-          </Link>
+    <AppContext.Provider
+      value={{
+        user,
+        setUser,
+      }}
+    >
+      <BrowserRouter>
+        <ScrollToTop />
+        <div className="App">
+          <Header
+            data={data}
+            onSelectLang={(lang) => selectLang(lang)}
+            selectedLang={selectedLang}
+            showListLangs={showListLangs}
+            onShowListLang={(e) => setShowListLangs(!showListLangs)}
+          />
+          <Switch>
+            <Route path="/" exact={true}>
+              <Home data={data} />
+            </Route>
+            {/* <Route path="/signup" exact={true}>
+              <Signup />
+            </Route> */}
+            <Route path="/about" exact={true}>
+              <About data={data} />
+            </Route>
+            <Route path="/portfolio" exact={true}>
+              <Portfolio data={data} />
+            </Route>
+            <Route path="/contact" exact={true}>
+              <Contact data={data} />
+            </Route>
+            <Route path="/services/strategy-marketing" exact={true}>
+              <MarketingStrategy data={data} />
+            </Route>
+            <Route path="/services/commercial-prospecting" exact={true}>
+              <CommercialProspecting data={data} />
+            </Route>
+            <Route path="/services/marketing-digital" exact={true}>
+              <DigitalMarketing data={data} />
+            </Route>
+            <Route path="/services/graphic-design" exact={true}>
+              <GraphicDesign data={data} />
+            </Route>
+            <Route path="/services/developement" exact={true}>
+              <Development data={data} />
+            </Route>
+            <Route path="/quote-quiz" exact={true}>
+              <Quiz data={data} />
+            </Route>
+            <Route path="/joinus" exact={true}>
+              <JoinUs data={data} />
+            </Route>
+            <Route path="/terms-and-conditions" exact={true}>
+              <Terms />
+            </Route>
+            {user.connected ? (
+              <>
+                <Route path="/*time&*where/dashboard" exact={true}>
+                  <Dashboard />
+                </Route>
+                <Route path="/*time&*where/mailer" exact={true}>
+                  <Mailing />
+                </Route>
+                <Route path="/*time&*where/database" exact={true}>
+                  <Database />
+                </Route>
+              </>
+            ) : (
+              <>
+                <Route path="/*time&*where" exact={true}>
+                  <Login />
+                </Route>
+                <Route path="/404" component={NotFound} />
+              </>
+            )}
+            <Route path="/404" component={NotFound} />
+            <Redirect to="/404" />
+          </Switch>
+          <Footer data={data} />
+          <div className="join-btn">
+            <Link to="/joinus">
+              <img src="/images/join.png" alt="Join" />
+              <div className="join-title">Join Us</div>
+            </Link>
+          </div>
+          <FloatingWhatsApp
+            size="50px"
+            phone="+21654563326"
+            popupMessage={data.whatsappMessage}
+            headerColor="#25D366"
+            autoOpenTimeout="1000000"
+            zIndex="999"
+          />
         </div>
-        <FloatingWhatsApp
-          size="50px"
-          phone="+21654563326"
-          popupMessage={data.whatsappMessage}
-          headerColor="#25D366"
-          autoOpenTimeout="1000000"
-          zIndex="999"
-        />
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AppContext.Provider>
   );
 }
 
