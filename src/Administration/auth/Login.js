@@ -1,22 +1,25 @@
-import React, { useState } from "react";
-import styles from "../Mailing.module.css";
+import React, { useState, useContext } from "react";
+import styles from "../Administration.module.css";
+import { AppContext } from "../../Context/AppContext";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-function Signup() {
+function Login() {
+  const { setUser } = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
 
-  function signUp(e) {
+  function signIn(e) {
     e.preventDefault();
-    axios
-      .post("/createAccount", { email: email, password: password })
-      .then((res) => {
-        if (res.data === "SUCCESS") {
-          alert("Success");
-        } else {
-          alert("Error");
-        }
-      });
+    axios.post("/login", { email: email, password: password }).then((res) => {
+      if (res.data.connected) {
+        setUser(res.data);
+        history.push("/*time&*where/dashboard");
+      } else {
+        alert("Error");
+      }
+    });
   }
 
   return (
@@ -29,9 +32,9 @@ function Signup() {
         }}
         className={styles.overlay}
       >
-        <h1>Administration SignUp</h1>
+        <h1 style={{ paddingTop: "150px" }}>Administration Login</h1>
         <div className={styles.formContainer}>
-          <form onSubmit={signUp}>
+          <form onSubmit={signIn}>
             <input
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -50,7 +53,7 @@ function Signup() {
               placeholder="Password"
               required
             />
-            <button className={styles.btn}>Send</button>
+            <button className={styles.btn}>Login</button>
           </form>
         </div>
       </div>
@@ -58,4 +61,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;

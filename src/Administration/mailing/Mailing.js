@@ -1,5 +1,5 @@
 import axios from "axios";
-import styles from "../Mailing.module.css";
+import styles from "../Administration.module.css";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -8,7 +8,6 @@ function Mailing() {
   const history = useHistory();
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
-  const [mailsList, setMailsList] = useState([]);
 
   function logout() {
     axios.post("/logout");
@@ -39,22 +38,13 @@ function Mailing() {
 
   async function sendMail(e) {
     e.preventDefault();
-    await axios.get("/mailslist").then((res) => {
-      setMailsList(res.data);
+    await axios.get("/sendmails").then((res) => {
+      if (res.data === "SUCCESS") {
+        success();
+      } else {
+        error();
+      }
     });
-    axios
-      .post("/sendmail", {
-        subject: subject,
-        message: message,
-        mailsList: mailsList,
-      })
-      .then((res) => {
-        if (res.data === "SUCCESS") {
-          success();
-        } else {
-          error();
-        }
-      });
   }
 
   return (

@@ -98,8 +98,120 @@ button:hover {
   background-color: #1c82b1;
 }
 
+.transparentBtn {
+  border: 1px solid rgb(0, 0, 0);
+  padding: 10px;
+  color: black;
+  background-color: rgba(255, 255, 255, 0);
+  transition: all 0.6s;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.transparentBtn:hover {
+  background-color: rgb(221, 221, 221);
+}
+
+.primaryBtn {
+  border-width: 0px;
+  padding: 5px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(73, 191, 238);
+  transition: all 0.6s;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.primaryBtn:hover {
+  background-color: rgb(48, 156, 199);
+}
+
+.dangerBtn {
+  border-width: 0px;
+  padding: 5px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(250, 39, 39);
+  transition: all 0.6s;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.dangerBtn:hover {
+  background-color: rgb(172, 18, 18);
+}
+
+.actionBtn {
+  border-width: 0px;
+  padding: 10px;
+  color: white;
+  background-color: rgb(179, 179, 179);
+  transition: all 0.6s;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 17px;
+}
+.actionBtn:hover {
+  background-color: rgb(112, 112, 112);
+}
+
 a {
   text-decoration: none;
+}
+
+/* Default Table Style */
+table {
+  width: 100%;
+  background: white;
+  border-collapse: collapse;
+}
+table thead th,
+table tfoot th {
+  background: rgba(0, 0, 0, 0.1);
+}
+table tr {
+  height: 50px;
+}
+table th,
+table td {
+  border: 1px solid lightgrey;
+  text-align: center;
+}
+/* Zebra Table Style */
+[data-table-theme*="zebra"] tbody tr:nth-of-type(odd) {
+  background: rgba(0, 0, 0, 0.05);
+}
+[data-table-theme*="zebra"][data-table-theme*="dark"]
+  tbody
+  tr:nth-of-type(odd) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* PAGINATION */
+.paginationContainer {
+  align-items: center;
+  text-align: center;
+  margin: 20px;
+}
+
+.pagination {
+  padding: 5px;
+  cursor: pointer;
+  display: inline-flex;
+  transition: all 0.6s;
+}
+
+.pagination:hover {
+  transform: scale(1.2);
+  text-decoration: underline;
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.activePagination {
+  transform: scale(1.2);
+  cursor: pointer;
+  display: inline-flex;
+  padding: 5px;
+  text-decoration: underline;
+  font-weight: bold;
+  color: var(--secondary-color);
 }
 
 /*****************************************************************/

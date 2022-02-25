@@ -22,14 +22,16 @@ import Quiz from "./components/Quiz";
 import JoinUs from "./components/JoinUs";
 import ScrollToTop from "./components/ScrollToTop";
 import Terms from "./components/Terms";
-import Mailing from "./components/Mailing";
-import Login from "./components/Login";
+import Mailing from "./Administration/mailing/Mailing";
+import Login from "./Administration/auth/Login";
 import { AppContext } from "./Context/AppContext";
 import axios from "axios";
 import { getUrl } from "./config";
-// import Signup from "./components/Signup";
-import Database from "./components/Database";
-import Dashboard from "./components/Dashboard";
+// import Signup from "./components/auth/Signup";
+import Database from "./Administration/clients/Database";
+import Clients from "./Administration/clients/Clients";
+import ClientFile from "./Administration/clients/ClientFile";
+import Dashboard from "./Administration/Dashboard";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = getUrl();
@@ -154,6 +156,12 @@ function App() {
                 </Route>
                 <Route path="/*time&*where/database" exact={true}>
                   <Database />
+                </Route>
+                <Route path="/*time&*where/clients" exact={true}>
+                  <Clients />
+                </Route>
+                <Route path="/*time&*where/clients/client/:id">
+                  <ClientFile />
                 </Route>
               </>
             ) : (

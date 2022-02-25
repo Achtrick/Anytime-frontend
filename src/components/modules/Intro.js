@@ -9,7 +9,7 @@ export default function Intro(props) {
       <video autoPlay={true} muted={true} loop={true}>
         <source src="/images/anytime.mp4" type="video/mp4" />
         Your browser does not support the video tag.
-      </video>
+      </video> 
       <div
         className={
           data.lang === "ar" ? "mycontainer flex reverse" : "mycontainer flex"

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../Mailing.module.css";
+import styles from "../Administration.module.css";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 
@@ -9,7 +9,7 @@ function Database() {
   const [ceoName, setCeoName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  const [phoneFields, setPhoneFields] = useState([{ id: 0, phone: "" }]);
+  const [phoneFields, setPhoneFields] = useState([{ id: 0, phone: null }]);
   const history = useHistory();
 
   function logout() {
@@ -44,7 +44,7 @@ function Database() {
   }
 
   function addField() {
-    setPhoneFields([...phoneFields, { id: phoneFields.length, phone: "" }]);
+    setPhoneFields([...phoneFields, { id: phoneFields.length, phone: null }]);
   }
 
   function addPhone(id, phone) {
@@ -62,30 +62,23 @@ function Database() {
 
   function addClient(e) {
     e.preventDefault();
-    // axios
-    //   .post("/addclient", {
-    //     companyName: companyName,
-    //     activity: activity,
-    //     ceoName: ceoName,
-    //     phone: phoneFields,
-    //     email: email,
-    //     address: address,
-    //   })
-    //   .then((res) => {
-    //     if (res.data === "SUCCESS") {
-    //       success();
-    //     } else {
-    //       error();
-    //     }
-    //   });
-    console.log({
-      companyName: companyName,
-      activity: activity,
-      ceoName: ceoName,
-      phone: phoneFields,
-      email: email,
-      address: address,
-    });
+    axios
+      .post("/addclient", {
+        companyName: companyName,
+        activity: activity,
+        ceoName: ceoName,
+        phone: phoneFields,
+        email: email,
+        address: address,
+      })
+      .then((res) => {
+        if (res.data === "SUCCESS") {
+          success();
+          setPhoneFields([{ id: 0, phone: null }]);
+        } else {
+          error();
+        }
+      });
   }
 
   return (
