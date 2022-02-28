@@ -6,7 +6,7 @@ export const en = {
   portfolioPage: "Portfolio",
   contactPage: "Contact",
   devisBtn: "Request a quote",
-  mainTitle: "Notre travail consiste à valoriser le vôtre",
+  mainTitle: "Our Job Is To Valorate Yours",
   intro: "Anytime & Anywhere is your business and investment advisor.",
   readMore: "Read More",
   featuresTitle: "Our approach",

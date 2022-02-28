@@ -150,7 +150,7 @@ function Database() {
                   addPhone(0, e.target.value);
                 }}
                 className={styles.phone}
-                type="tel"
+                type="number"
                 placeholder="Téléphone"
               />
               <a
@@ -173,7 +173,7 @@ function Database() {
                         addPhone(phone.id, e.target.value);
                       }}
                       className={styles.phone}
-                      type="tel"
+                      type="number"
                       placeholder="Téléphone"
                     />
                     <a

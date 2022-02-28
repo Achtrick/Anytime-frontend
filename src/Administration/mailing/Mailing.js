@@ -15,11 +15,11 @@ function Mailing() {
   }
 
   function success() {
-    document.getElementById("name").value = "";
-    document.getElementById("email").value = "";
+    document.getElementById("subject").value = "";
+    document.getElementById("message").value = "";
     let feedback = document.getElementById("fback");
     feedback.hidden = false;
-    feedback.innerHTML = "News Letter sent successfully";
+    feedback.innerHTML = "News Letter envoyé";
     feedback.style.color = "green";
     setTimeout(() => {
       feedback.hidden = true;
@@ -27,24 +27,30 @@ function Mailing() {
   }
 
   function error() {
+    document.getElementById("subject").value = "";
+    document.getElementById("message").value = "";
     let feedback = document.getElementById("fback");
     feedback.hidden = false;
-    feedback.innerHTML = "An error occured !";
-    feedback.style.color = "red";
+    feedback.innerHTML = "Quelques mails ne sont pas valides !";
+    feedback.style.color = "orange";
     setTimeout(() => {
       feedback.hidden = true;
     }, 2000);
   }
 
-  async function sendMail(e) {
+  function sendMail(e) {
     e.preventDefault();
-    await axios.get("/sendmails").then((res) => {
-      if (res.data === "SUCCESS") {
-        success();
-      } else {
-        error();
-      }
-    });
+    axios
+      .post("/sendmails", { subject: subject, message: message })
+      .then((res) => {
+        if (res.data === "SUCCESS") {
+          success();
+        } else if (res.data === "EMPTY") {
+          alert("Ajouter des clients d'abord");
+        } else {
+          error();
+        }
+      });
   }
 
   return (
@@ -82,7 +88,7 @@ function Mailing() {
               id="subject"
               required
               onChange={(e) => {
-                setSubject(e.target.data);
+                setSubject(e.target.value);
               }}
               className={styles.input}
               type="text"
@@ -92,7 +98,7 @@ function Mailing() {
               id="message"
               required
               onChange={(e) => {
-                setMessage(e.target.data);
+                setMessage(e.target.value);
               }}
               className={styles.input}
               type="text"

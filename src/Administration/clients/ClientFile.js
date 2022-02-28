@@ -33,7 +33,7 @@ function ClientFile(props) {
       >
         <div className={styles.navrow}>
           <div className={styles.col2}>
-            <Link className={styles.defaultBtn} to="/*time&*where/dashboard">
+            <Link className={styles.defaultBtn} to="/*time&*where/clients">
               back
             </Link>
           </div>
@@ -66,7 +66,7 @@ function ClientFile(props) {
               </h3>
             </div>
           </div>
-          <div className={styles.tableRow}>
+          <div className={styles.clientRow}>
             <div className={styles.col2Left}>
               <h3>
                 <FontAwesomeIcon icon={solid("chart-line")} size="lg" />
@@ -82,7 +82,7 @@ function ClientFile(props) {
               </h3>
             </div>
           </div>
-          <div className={styles.tableRow}>
+          <div className={styles.clientRow}>
             <div className={styles.col2Left}>
               <h3>
                 <FontAwesomeIcon icon={solid("envelope")} size="lg" />

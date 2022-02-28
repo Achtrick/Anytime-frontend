@@ -3,6 +3,8 @@ import styles from "../Administration.module.css";
 import { AppContext } from "../../Context/AppContext";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 function Login() {
   const { setUser } = useContext(AppContext);

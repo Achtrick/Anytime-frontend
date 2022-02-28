@@ -27,7 +27,7 @@ import Login from "./Administration/auth/Login";
 import { AppContext } from "./Context/AppContext";
 import axios from "axios";
 import { getUrl } from "./config";
-// import Signup from "./components/auth/Signup";
+// import Signup from "./Administration/auth/Signup";
 import Database from "./Administration/clients/Database";
 import Clients from "./Administration/clients/Clients";
 import ClientFile from "./Administration/clients/ClientFile";
@@ -148,28 +148,35 @@ function App() {
             </Route>
             {user.connected ? (
               <>
-                <Route path="/*time&*where/dashboard" exact={true}>
-                  <Dashboard />
-                </Route>
-                <Route path="/*time&*where/mailer" exact={true}>
-                  <Mailing />
-                </Route>
-                <Route path="/*time&*where/database" exact={true}>
-                  <Database />
-                </Route>
-                <Route path="/*time&*where/clients" exact={true}>
-                  <Clients />
-                </Route>
-                <Route path="/*time&*where/clients/client/:id">
-                  <ClientFile />
-                </Route>
+                <Switch>
+                  <Route path="/*time&*where/dashboard" exact={true}>
+                    <Dashboard />
+                  </Route>
+                  <Route path="/*time&*where/mailer" exact={true}>
+                    <Mailing />
+                  </Route>
+                  <Route path="/*time&*where/database" exact={true}>
+                    <Database />
+                  </Route>
+                  <Route path="/*time&*where/clients" exact={true}>
+                    <Clients />
+                  </Route>
+                  <Route path="/*time&*where/clients/client/:id">
+                    <ClientFile />
+                  </Route>
+                  <Route path="/404" component={NotFound} />
+                  <Redirect to="/404" />
+                </Switch>
               </>
             ) : (
               <>
-                <Route path="/*time&*where" exact={true}>
-                  <Login />
-                </Route>
-                <Route path="/404" component={NotFound} />
+                <Switch>
+                  <Route path="/*time&*where" exact={true}>
+                    <Login />
+                  </Route>
+                  <Route path="/404" component={NotFound} />
+                  <Redirect to="/404" />
+                </Switch>
               </>
             )}
             <Route path="/404" component={NotFound} />
