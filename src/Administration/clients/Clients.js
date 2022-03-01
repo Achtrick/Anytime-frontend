@@ -78,8 +78,9 @@ function Clients() {
         </div>
         <h1>Clients</h1>
         <div className={styles.tableContainer}>
-          <h3 className={styles.searchField}>
+          <div className={styles.searchField}>
             <form
+              className={styles.form}
               onSubmit={(e) => {
                 document.getElementById("searchField").disabled = true;
                 document.getElementById("resetBtn").hidden = false;
@@ -121,7 +122,7 @@ function Clients() {
                 <FontAwesomeIcon icon={solid("undo")} size="lg" color="black" />
               </button>
             </form>
-          </h3>
+          </div>
           <div className={styles.blackHr}></div>
           {loading ? (
             <div
@@ -141,24 +142,24 @@ function Clients() {
               <table>
                 <thead>
                   <tr>
-                    <th>Nom Soc</th>
-                    <th>Téléphone</th>
-                    <th>Email</th>
-                    <th>Action</th>
+                    <th scope="col">Nom Soc</th>
+                    <th scope="col">Téléphone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {clientsList.map((client) => {
                     return (
                       <tr key={client._id}>
-                        <td>{client.companyName}</td>
-                        <td>
+                        <td data-label="Nom soc">{client.companyName}</td>
+                        <td data-label="Téléphone">
                           {client.phone.map((row) => {
                             return <div key={row.id}>{row.phone}</div>;
                           })}
                         </td>
-                        <td>{client.email}</td>
-                        <td>
+                        <td data-label="Email">{client.email}</td>
+                        <td data-label="Action">
                           <Link
                             to={`/*time&*where/clients/client/${client._id}`}
                             className="primaryBtn"
@@ -166,7 +167,12 @@ function Clients() {
                             <FontAwesomeIcon icon={solid("file")} size="1x" />
                           </Link>
                           &nbsp;
-                          <span className="dangerBtn">
+                          <span
+                            onClick={() => {
+                              console.log(client._id);
+                            }}
+                            className="dangerBtn"
+                          >
                             <FontAwesomeIcon icon={solid("trash")} size="1x" />
                           </span>
                         </td>

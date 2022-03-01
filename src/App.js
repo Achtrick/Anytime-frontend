@@ -164,8 +164,10 @@ function App() {
                   <Route path="/*time&*where/clients/client/:id">
                     <ClientFile />
                   </Route>
-                  <Route path="/404" component={NotFound} />
-                  <Redirect to="/404" />
+                  <Route path="/*time&*where" exact={true}>
+                    <Redirect to="/*time&*where/dashboard/" />
+                  </Route>
+                  <Route component={NotFound} />
                 </Switch>
               </>
             ) : (
@@ -174,29 +176,33 @@ function App() {
                   <Route path="/*time&*where" exact={true}>
                     <Login />
                   </Route>
-                  <Route path="/404" component={NotFound} />
-                  <Redirect to="/404" />
+                  <Route component={NotFound} />
                 </Switch>
               </>
             )}
-            <Route path="/404" component={NotFound} />
-            <Redirect to="/404" />
+            <Route component={NotFound} />
           </Switch>
           <Footer data={data} />
-          <div className="join-btn">
-            <Link to="/joinus">
-              <img src="/images/join.png" alt="Join" />
-              <div className="join-title">Join Us</div>
-            </Link>
-          </div>
-          <FloatingWhatsApp
-            size="50px"
-            phone="+21654563326"
-            popupMessage={data.whatsappMessage}
-            headerColor="#25D366"
-            autoOpenTimeout="1000000"
-            zIndex="999"
-          />
+          {user.connected ? (
+            <></>
+          ) : (
+            <>
+              <div className="join-btn">
+                <Link to="/joinus">
+                  <img src="/images/join.png" alt="Join" />
+                  <div className="join-title">Join Us</div>
+                </Link>
+              </div>
+              <FloatingWhatsApp
+                size="50px"
+                phone="+21654563326"
+                popupMessage={data.whatsappMessage}
+                headerColor="#25D366"
+                autoOpenTimeout="1000000"
+                zIndex="999"
+              />
+            </>
+          )}
         </div>
       </BrowserRouter>
     </AppContext.Provider>

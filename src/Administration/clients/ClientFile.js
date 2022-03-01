@@ -53,53 +53,72 @@ function ClientFile(props) {
           <div className={styles.clientRow}>
             <div className={styles.col2Left}>
               <h3>
-                <FontAwesomeIcon icon={solid("building")} size="lg" />
-                &nbsp;
-                {client.companyName}
+                <div className={styles.colRow}>
+                  <div className={styles.colIcon}>
+                    <FontAwesomeIcon icon={solid("building")} size="lg" />
+                  </div>
+                  <div className={styles.colData}>{client.companyName}</div>
+                </div>
               </h3>
             </div>
             <div className={styles.col2Left}>
               <h3>
-                <FontAwesomeIcon icon={solid("user")} size="lg" />
-                &nbsp;
-                {client.ceoName}
-              </h3>
-            </div>
-          </div>
-          <div className={styles.clientRow}>
-            <div className={styles.col2Left}>
-              <h3>
-                <FontAwesomeIcon icon={solid("chart-line")} size="lg" />
-                &nbsp;
-                {client.activity}
-              </h3>
-            </div>
-            <div className={styles.col2Left}>
-              <h3>
-                <FontAwesomeIcon icon={solid("location-dot")} size="lg" />
-                &nbsp;
-                {client.address}
+                <div className={styles.colRow}>
+                  <div className={styles.colIcon}>
+                    <FontAwesomeIcon icon={solid("user")} size="lg" />
+                  </div>
+                  <div className={styles.colData}>{client.contactName}</div>
+                </div>
               </h3>
             </div>
           </div>
           <div className={styles.clientRow}>
             <div className={styles.col2Left}>
               <h3>
-                <FontAwesomeIcon icon={solid("envelope")} size="lg" />
-                &nbsp;
-                {client.email}
+                <div className={styles.colRow}>
+                  <div className={styles.colIcon}>
+                    <FontAwesomeIcon icon={solid("chart-line")} size="lg" />
+                  </div>
+                  <div className={styles.colData}>{client.activity}</div>
+                </div>
               </h3>
             </div>
             <div className={styles.col2Left}>
               <h3>
-                {client.phone.map((row) => {
-                  return (
-                    <div key={row.id}>
-                      <FontAwesomeIcon icon={solid("phone")} size="lg" />
-                      &nbsp;{row.phone}
-                    </div>
-                  );
-                })}
+                <div className={styles.colRow}>
+                  <div className={styles.colIcon}>
+                    <FontAwesomeIcon icon={solid("location-dot")} size="lg" />
+                  </div>
+                  <div className={styles.colData}>{client.address}</div>
+                </div>
+              </h3>
+            </div>
+          </div>
+          <div className={styles.clientRow}>
+            <div className={styles.col2Left}>
+              <h3>
+                <div className={styles.colRow}>
+                  <div className={styles.colIcon}>
+                    <FontAwesomeIcon icon={solid("envelope")} size="lg" />
+                  </div>
+                  <div className={styles.colData}>{client.email}</div>
+                </div>
+              </h3>
+            </div>
+            <div className={styles.col2Left}>
+              <h3>
+                <div className={styles.colRow}>
+                  <div className={styles.colIcon}>
+                    <FontAwesomeIcon icon={solid("phone")} size="lg" />
+                  </div>
+                  <div className={styles.colData}>
+                    {client.phone.map((row) => {
+                      return (
+                        <div className={styles.colRow}>{row.phone} &nbsp;</div>
+                      );
+                    })}
+                  </div>
+                </div>
               </h3>
             </div>
           </div>

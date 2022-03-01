@@ -6,7 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 function Database() {
   const [companyName, setCompanyName] = useState("");
   const [activity, setActivity] = useState("");
-  const [ceoName, setCeoName] = useState("");
+  const [contactName, setContactName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [phoneFields, setPhoneFields] = useState([{ id: 0, phone: null }]);
@@ -20,7 +20,7 @@ function Database() {
   function success() {
     document.getElementById("companyName").value = "";
     document.getElementById("activity").value = "";
-    document.getElementById("ceoName").value = "";
+    document.getElementById("contactName").value = "";
     document.getElementById("phone").value = "";
     document.getElementById("email").value = "";
     document.getElementById("address").value = "";
@@ -66,7 +66,7 @@ function Database() {
       .post("/addclient", {
         companyName: companyName,
         activity: activity,
-        ceoName: ceoName,
+        contactName: contactName,
         phone: phoneFields,
         email: email,
         address: address,
@@ -133,14 +133,14 @@ function Database() {
               placeholder="Activité"
             />
             <input
-              id="ceoName"
+              id="contactName"
               required
               onChange={(e) => {
-                setCeoName(e.target.value);
+                setContactName(e.target.value);
               }}
               className={styles.input}
               type="text"
-              placeholder="C.E.O"
+              placeholder="Contact Name"
             />
             <div className={styles.inputRow}>
               <input
