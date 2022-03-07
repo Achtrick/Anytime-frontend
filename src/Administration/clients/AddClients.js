@@ -1,29 +1,33 @@
 import React, { useState } from "react";
 import styles from "../Administration.module.css";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 function Database() {
   const [companyName, setCompanyName] = useState("");
   const [activity, setActivity] = useState("");
-  const [contactName, setContactName] = useState("");
+  const [ceoName, setCeoName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [phoneFields, setPhoneFields] = useState([{ id: 0, phone: null }]);
-  const history = useHistory();
-
-  function logout() {
-    axios.post("/logout");
-    history.push("/");
-  }
+  const [otherActivity, setOtherActivity] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   function success() {
     document.getElementById("companyName").value = "";
     document.getElementById("activity").value = "";
-    document.getElementById("contactName").value = "";
-    document.getElementById("phone").value = "";
+    document.getElementById("ceoName").value = "";
     document.getElementById("email").value = "";
     document.getElementById("address").value = "";
+
+    setSubmitted(!submitted);
+    console.log(submitted);
+    setPhoneFields([{ id: 0, phone: null }]);
+    if (document.getElementById("other-activity")) {
+      document.getElementById("other-activity").value = "";
+    }
+    setOtherActivity(false);
     let feedback = document.getElementById("fback");
     feedback.hidden = false;
     feedback.innerHTML = "Client added successfully";
@@ -60,13 +64,17 @@ function Database() {
     setPhoneFields(phoneFields.filter((phone) => phone.id !== id));
   }
 
+  function toggleOthersField(value) {
+    setOtherActivity(!value);
+  }
+
   function addClient(e) {
     e.preventDefault();
     axios
       .post("/addclient", {
         companyName: companyName,
         activity: activity,
-        contactName: contactName,
+        ceoName: ceoName,
         phone: phoneFields,
         email: email,
         address: address,
@@ -74,7 +82,6 @@ function Database() {
       .then((res) => {
         if (res.data === "SUCCESS") {
           success();
-          setPhoneFields([{ id: 0, phone: null }]);
         } else {
           error();
         }
@@ -91,25 +98,7 @@ function Database() {
         }}
         className={styles.overlay}
       >
-        <div className={styles.navrow}>
-          <div className={styles.col2}>
-            <Link className={styles.defaultBtn} to="/*time&*where/dashboard">
-              back
-            </Link>
-          </div>
-
-          <div className={styles.col2}>
-            <a
-              onClick={() => {
-                logout();
-              }}
-              className={styles.dangerBtn}
-            >
-              Logout
-            </a>
-          </div>
-        </div>
-        <h1>Database</h1>
+        <h1>Ajouter des Clients</h1>
         <div className={styles.formContainer}>
           <form onSubmit={addClient}>
             <input
@@ -122,42 +111,98 @@ function Database() {
               type="text"
               placeholder="Nom de la société"
             />
-            <input
+            <select
               id="activity"
+              style={{ cursor: "pointer" }}
               required
               onChange={(e) => {
-                setActivity(e.target.value);
+                if (e.target.value !== "Autres") {
+                  toggleOthersField(true);
+                  setActivity(e.target.value);
+                } else {
+                  toggleOthersField(false);
+                }
               }}
               className={styles.input}
               type="text"
               placeholder="Activité"
-            />
+            >
+              <option value={""}>Activité</option>
+              <option value="Industrie">Industrie</option>
+              <option value="Commerce">Commerce</option>
+              <option value="Agricole">Agricole</option>
+              <option value="Santé">Santé</option>
+              <option value="Informatique">Informatique</option>
+              <option value="Trading">Trading</option>
+              <option value="Sport">Sport</option>
+              <option value="Artistique">Artistique</option>
+              <option value="Juridique">Juridique</option>
+              <option value="Education">Education</option>
+              <option value="Transport">Transport</option>
+              <option value="Communication">Communication</option>
+              <option value="Autres">Autres</option>
+            </select>
+            {otherActivity ? (
+              <>
+                <input
+                  id="other-activity"
+                  required
+                  onChange={(e) => {
+                    setActivity(e.target.value);
+                  }}
+                  className={styles.input}
+                  type="text"
+                  placeholder="Activité"
+                />
+              </>
+            ) : null}
             <input
-              id="contactName"
+              id="ceoName"
               required
               onChange={(e) => {
-                setContactName(e.target.value);
+                setCeoName(e.target.value);
               }}
               className={styles.input}
               type="text"
-              placeholder="Contact Name"
+              placeholder="Nom de contact"
             />
             <div className={styles.inputRow}>
-              <input
-                id="phone"
-                required
-                onChange={(e) => {
-                  addPhone(0, e.target.value);
-                }}
-                className={styles.phone}
-                type="number"
-                placeholder="Téléphone"
-              />
+              {submitted ? (
+                <PhoneInput
+                  value=""
+                  inputStyle={{
+                    width: "100%",
+                    height: "37px",
+                  }}
+                  dropdownStyle={{ width: "300px" }}
+                  inputProps={{
+                    required: true,
+                  }}
+                  onChange={(number) => {
+                    addPhone(0, number);
+                  }}
+                />
+              ) : (
+                <PhoneInput
+                  value=""
+                  inputStyle={{
+                    width: "100%",
+                    height: "37px",
+                  }}
+                  dropdownStyle={{ width: "300px" }}
+                  inputProps={{
+                    required: true,
+                  }}
+                  onChange={(number) => {
+                    addPhone(0, number);
+                  }}
+                />
+              )}
               <a
+                className={styles.addBtn}
                 onClick={() => {
                   addField();
                 }}
-                className={styles.addBtn}
               >
                 <i className="fa-solid fa-plus" />
               </a>
@@ -166,15 +211,19 @@ function Database() {
               if (phone.id !== 0)
                 return (
                   <div key={phone.id} className={styles.inputRow}>
-                    <input
-                      id="phone"
-                      required
-                      onChange={(e) => {
-                        addPhone(phone.id, e.target.value);
+                    <PhoneInput
+                      inputStyle={{
+                        height: "37px",
+                        width: "100%",
+                        marginBottom: "0px",
                       }}
-                      className={styles.phone}
-                      type="number"
-                      placeholder="Téléphone"
+                      dropdownStyle={{ width: "300px" }}
+                      inputProps={{
+                        required: true,
+                      }}
+                      onChange={(number) => {
+                        addPhone(phone.id, number);
+                      }}
                     />
                     <a
                       onClick={() => {
@@ -210,7 +259,7 @@ function Database() {
             <div id="fback" className={styles.feedback} hidden>
               feedback
             </div>
-            <button className={styles.btn}>Add</button>
+            <button className={styles.btn}>Ajouter</button>
           </form>
         </div>
       </div>

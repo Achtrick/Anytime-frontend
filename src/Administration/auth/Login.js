@@ -10,15 +10,19 @@ function Login() {
   const { setUser } = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   function signIn(e) {
     e.preventDefault();
+    setLoading(true);
     axios.post("/login", { email: email, password: password }).then((res) => {
       if (res.data.connected) {
         setUser(res.data);
-        history.push("/*time&*where/dashboard");
+        setLoading(false);
+        history.push("/*time&*where/clientslist");
       } else {
+        setLoading(false);
         alert("Error");
       }
     });
@@ -34,7 +38,7 @@ function Login() {
         }}
         className={styles.overlay}
       >
-        <h1 style={{ paddingTop: "150px" }}>Administration Login</h1>
+        <h1>Administration Login</h1>
         <div className={styles.formContainer}>
           <form onSubmit={signIn}>
             <input
@@ -55,7 +59,13 @@ function Login() {
               placeholder="Password"
               required
             />
-            <button className={styles.btn}>Login</button>
+            {loading ? (
+              <button disabled className={styles.btn}>
+                <FontAwesomeIcon icon={solid("spinner")} size="lg" spin />
+              </button>
+            ) : (
+              <button className={styles.btn}>Login</button>
+            )}
           </form>
         </div>
       </div>

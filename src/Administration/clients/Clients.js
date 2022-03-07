@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "../Administration.module.css";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { Link } from "react-router-dom";
+import Dialog from "../Dialog";
+import { AppContext } from "../../Context/AppContext";
 
 function Clients() {
-  const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [allPages, setAllPages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [clientsList, setClientsList] = useState([]);
-
-  function logout() {
-    axios.post("/logout");
-    history.push("/");
-  }
+  const [client, setClient] = useState({ id: null, name: "" });
+  const { dialog, setDialog } = useContext(AppContext);
 
   function getClients(page) {
     axios
@@ -44,12 +42,23 @@ function Clients() {
     });
   }
 
+  const deleteClient = (id) => {
+    axios.delete(`/deleteclient${id}`).then((res) => {
+      if (res.data === "SUCCESS") {
+        getClients();
+      } else {
+        alert("ERROR");
+      }
+    });
+  };
+
   useEffect(() => {
     getClients(currentPage);
   }, []);
 
   return (
     <>
+      {dialog ? <Dialog client={client} action={deleteClient} /> : null}
       <div
         style={{
           backgroundImage: `url(${
@@ -58,24 +67,6 @@ function Clients() {
         }}
         className={styles.overlay}
       >
-        <div className={styles.navrow}>
-          <div className={styles.col2}>
-            <Link className={styles.defaultBtn} to="/*time&*where/dashboard">
-              back
-            </Link>
-          </div>
-
-          <div className={styles.col2}>
-            <a
-              onClick={() => {
-                logout();
-              }}
-              className={styles.dangerBtn}
-            >
-              Logout
-            </a>
-          </div>
-        </div>
         <h1>Clients</h1>
         <div className={styles.tableContainer}>
           <div className={styles.searchField}>
@@ -101,11 +92,7 @@ function Clients() {
                 placeholder="User Name ..."
               />
               <button id="searchBtn" className="transparentBtn">
-                <FontAwesomeIcon
-                  icon={solid("search")}
-                  size="lg"
-                  color="black"
-                />
+                <FontAwesomeIcon icon={solid("search")} size="lg" />
               </button>
               <button
                 type="button"
@@ -167,9 +154,20 @@ function Clients() {
                             <FontAwesomeIcon icon={solid("file")} size="1x" />
                           </Link>
                           &nbsp;
+                          <Link
+                            to={`/*time&*where/clients/editclient/${client._id}`}
+                            className="editBtn"
+                          >
+                            <FontAwesomeIcon icon={solid("edit")} size="1x" />
+                          </Link>
+                          &nbsp;
                           <span
                             onClick={() => {
-                              console.log(client._id);
+                              setClient({
+                                id: client._id,
+                                name: client.ceoName,
+                              });
+                              setDialog(true);
                             }}
                             className="dangerBtn"
                           >

@@ -123,7 +123,18 @@ button:hover {
 .primaryBtn:hover {
   background-color: rgb(48, 156, 199);
 }
-
+.editBtn {
+  border-width: 0px;
+  padding: 5px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(250, 151, 39);
+  transition: all 0.6s;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.editBtn:hover {
+  background-color: rgb(218, 132, 35);
+}
 .dangerBtn {
   border-width: 0px;
   padding: 5px;
@@ -162,7 +173,7 @@ table {
   margin: 0;
   padding: 0;
   width: 100%;
-  table-layout: fixed;
+  table-layout: auto;
 }
 
 table caption {
@@ -188,7 +199,7 @@ table th {
   text-align: left;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1100px) {
   table {
     border: 0;
   }
@@ -1398,7 +1409,7 @@ iframe {
 
 .page-header {
   width: 100vw;
-  height: 90vh;
+  height: 100vh;
   padding-top: 98.22px;
   position: relative;
   display: flex;

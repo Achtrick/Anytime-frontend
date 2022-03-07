@@ -28,16 +28,18 @@ import { AppContext } from "./Context/AppContext";
 import axios from "axios";
 import { getUrl } from "./config";
 // import Signup from "./Administration/auth/Signup";
-import Database from "./Administration/clients/Database";
+import AddClients from "./Administration/clients/AddClients";
+import EditClient from "./Administration/clients/EditClient";
 import Clients from "./Administration/clients/Clients";
 import ClientFile from "./Administration/clients/ClientFile";
-import Dashboard from "./Administration/Dashboard";
+import NavBarAdmin from "./Administration/NavBarAdmin";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = getUrl();
 
 function App() {
   const [user, setUser] = useState({});
+  const [dialog, setDialog] = useState(false);
 
   useEffect(() => {
     axios.get("/login").then((res) => {
@@ -94,113 +96,114 @@ function App() {
       value={{
         user,
         setUser,
+        dialog,
+        setDialog,
       }}
     >
       <BrowserRouter>
         <ScrollToTop />
         <div className="App">
-          <Header
-            data={data}
-            onSelectLang={(lang) => selectLang(lang)}
-            selectedLang={selectedLang}
-            showListLangs={showListLangs}
-            onShowListLang={(e) => setShowListLangs(!showListLangs)}
-          />
-          <Switch>
-            <Route path="/" exact={true}>
-              <Home data={data} />
-            </Route>
-            {/* <Route path="/signup" exact={true}>
-              <Signup />
-            </Route> */}
-            <Route path="/about" exact={true}>
-              <About data={data} />
-            </Route>
-            <Route path="/portfolio" exact={true}>
-              <Portfolio data={data} />
-            </Route>
-            <Route path="/contact" exact={true}>
-              <Contact data={data} />
-            </Route>
-            <Route path="/services/strategy-marketing" exact={true}>
-              <MarketingStrategy data={data} />
-            </Route>
-            <Route path="/services/commercial-prospecting" exact={true}>
-              <CommercialProspecting data={data} />
-            </Route>
-            <Route path="/services/marketing-digital" exact={true}>
-              <DigitalMarketing data={data} />
-            </Route>
-            <Route path="/services/graphic-design" exact={true}>
-              <GraphicDesign data={data} />
-            </Route>
-            <Route path="/services/developement" exact={true}>
-              <Development data={data} />
-            </Route>
-            <Route path="/quote-quiz" exact={true}>
-              <Quiz data={data} />
-            </Route>
-            <Route path="/joinus" exact={true}>
-              <JoinUs data={data} />
-            </Route>
-            <Route path="/terms-and-conditions" exact={true}>
-              <Terms />
-            </Route>
-            {user.connected ? (
-              <>
+          {user.connected ? (
+            <>
+              <NavBarAdmin>
                 <Switch>
-                  <Route path="/*time&*where/dashboard" exact={true}>
-                    <Dashboard />
-                  </Route>
-                  <Route path="/*time&*where/mailer" exact={true}>
+                  <Route path="/*time&*where/newsletter" exact={true}>
                     <Mailing />
                   </Route>
-                  <Route path="/*time&*where/database" exact={true}>
-                    <Database />
+                  <Route path="/*time&*where/addclients" exact={true}>
+                    <AddClients />
                   </Route>
-                  <Route path="/*time&*where/clients" exact={true}>
+                  <Route path="/*time&*where/clients/editclient/:id">
+                    <EditClient />
+                  </Route>
+                  <Route path="/*time&*where/clientslist" exact={true}>
                     <Clients />
                   </Route>
                   <Route path="/*time&*where/clients/client/:id">
                     <ClientFile />
                   </Route>
                   <Route path="/*time&*where" exact={true}>
-                    <Redirect to="/*time&*where/dashboard/" />
+                    <Redirect to="/*time&*where/clientslist" />
                   </Route>
                   <Route component={NotFound} />
                 </Switch>
-              </>
-            ) : (
-              <>
-                <Switch>
-                  <Route path="/*time&*where" exact={true}>
-                    <Login />
-                  </Route>
-                  <Route component={NotFound} />
-                </Switch>
-              </>
-            )}
-            <Route component={NotFound} />
-          </Switch>
-          <Footer data={data} />
-          {user.connected ? (
-            <></>
+              </NavBarAdmin>
+            </>
           ) : (
             <>
-              <div className="join-btn">
-                <Link to="/joinus">
-                  <img src="/images/join.png" alt="Join" />
-                  <div className="join-title">Join Us</div>
-                </Link>
-              </div>
-              <FloatingWhatsApp
-                size="50px"
-                phone="+21654563326"
-                popupMessage={data.whatsappMessage}
-                headerColor="#25D366"
-                autoOpenTimeout="1000000"
-                zIndex="999"
+              <Header
+                data={data}
+                onSelectLang={(lang) => selectLang(lang)}
+                selectedLang={selectedLang}
+                showListLangs={showListLangs}
+                onShowListLang={(e) => setShowListLangs(!showListLangs)}
               />
+              <Switch>
+                <Route path="/" exact={true}>
+                  <Home data={data} />
+                </Route>
+                <Route path="/*time&*where" exact={true}>
+                  <Login />
+                </Route>
+                {/* <Route path="/signup" exact={true}>
+              <Signup />
+            </Route> */}
+                <Route path="/about" exact={true}>
+                  <About data={data} />
+                </Route>
+                <Route path="/portfolio" exact={true}>
+                  <Portfolio data={data} />
+                </Route>
+                <Route path="/contact" exact={true}>
+                  <Contact data={data} />
+                </Route>
+                <Route path="/services/strategy-marketing" exact={true}>
+                  <MarketingStrategy data={data} />
+                </Route>
+                <Route path="/services/commercial-prospecting" exact={true}>
+                  <CommercialProspecting data={data} />
+                </Route>
+                <Route path="/services/marketing-digital" exact={true}>
+                  <DigitalMarketing data={data} />
+                </Route>
+                <Route path="/services/graphic-design" exact={true}>
+                  <GraphicDesign data={data} />
+                </Route>
+                <Route path="/services/developement" exact={true}>
+                  <Development data={data} />
+                </Route>
+                <Route path="/quote-quiz" exact={true}>
+                  <Quiz data={data} />
+                </Route>
+                <Route path="/joinus" exact={true}>
+                  <JoinUs data={data} />
+                </Route>
+                <Route path="/terms-and-conditions" exact={true}>
+                  <Terms />
+                </Route>
+                <Route component={NotFound} />
+              </Switch>
+              <Footer data={data} />
+              {user.connected ? (
+                <></>
+              ) : (
+                <>
+                  <div className="join-btn">
+                    <Link to="/joinus">
+                      <img src="/images/join.png" alt="Join" />
+                      <div className="join-title">Join Us</div>
+                    </Link>
+                  </div>
+                  <FloatingWhatsApp
+                    size="50px"
+                    phone="+21654563326"
+                    popupMessage={data.whatsappMessage}
+                    headerColor="#25D366"
+                    autoOpenTimeout="1000000"
+                    zIndex="999"
+                  />
+                </>
+              )}
             </>
           )}
         </div>

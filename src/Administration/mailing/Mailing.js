@@ -1,18 +1,10 @@
 import axios from "axios";
 import styles from "../Administration.module.css";
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
 import { useState } from "react";
 
 function Mailing() {
-  const history = useHistory();
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
-
-  function logout() {
-    axios.post("/logout");
-    history.push("/");
-  }
 
   function success() {
     document.getElementById("subject").value = "";
@@ -63,24 +55,6 @@ function Mailing() {
         }}
         className={styles.overlay}
       >
-        <div className={styles.navrow}>
-          <div className={styles.col2}>
-            <Link className={styles.defaultBtn} to="/*time&*where/dashboard">
-              back
-            </Link>
-          </div>
-
-          <div className={styles.col2}>
-            <a
-              onClick={() => {
-                logout();
-              }}
-              className={styles.dangerBtn}
-            >
-              Logout
-            </a>
-          </div>
-        </div>
         <h1>News Letter</h1>
         <div className={styles.formContainer}>
           <form onSubmit={sendMail}>

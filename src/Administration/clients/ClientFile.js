@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../Administration.module.css";
-import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import axios from "axios";
 
 function ClientFile(props) {
-  const history = useHistory();
   const [client, setClient] = useState({ phone: [{ phone: "" }] });
   let { id } = useParams();
-
-  function logout() {
-    axios.post("/logout");
-    history.push("/");
-  }
 
   useEffect(() => {
     axios.post("/getclient", { id: id }).then((res) => {
@@ -31,24 +24,6 @@ function ClientFile(props) {
         }}
         className={styles.overlay}
       >
-        <div className={styles.navrow}>
-          <div className={styles.col2}>
-            <Link className={styles.defaultBtn} to="/*time&*where/clients">
-              back
-            </Link>
-          </div>
-
-          <div className={styles.col2}>
-            <a
-              onClick={() => {
-                logout();
-              }}
-              className={styles.dangerBtn}
-            >
-              Logout
-            </a>
-          </div>
-        </div>
         <div className={styles.tableContainer}>
           <div className={styles.clientRow}>
             <div className={styles.col2Left}>
@@ -67,7 +42,7 @@ function ClientFile(props) {
                   <div className={styles.colIcon}>
                     <FontAwesomeIcon icon={solid("user")} size="lg" />
                   </div>
-                  <div className={styles.colData}>{client.contactName}</div>
+                  <div className={styles.colData}>{client.ceoName}</div>
                 </div>
               </h3>
             </div>
@@ -114,7 +89,9 @@ function ClientFile(props) {
                   <div className={styles.colData}>
                     {client.phone.map((row) => {
                       return (
-                        <div className={styles.colRow}>{row.phone} &nbsp;</div>
+                        <div key={row.id + 12} className={styles.colRow}>
+                          {row.phone} &nbsp;
+                        </div>
                       );
                     })}
                   </div>
